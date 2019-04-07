@@ -40,11 +40,6 @@ public class MyStepdefinition_Login {
 
     @Given("user is in Home page")
     public void userIsInHomePage() throws InterruptedException {
-//        WebDriverManager.chromedriver().setup();
-//        driver=new ChromeDriver();
-//        driver.manage().window().maximize();
-//        driver.manage().deleteAllCookies();
-//        driver.get("http://demo.nopcommerce.com/");
         System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver");
         driver = BrowserFactory.getBrowser();
         driver.manage().window().maximize();

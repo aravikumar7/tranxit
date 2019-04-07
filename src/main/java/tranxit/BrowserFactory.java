@@ -20,6 +20,9 @@ public class BrowserFactory {
         System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver");
         WebDriverManager.chromedriver().setup();
 
+          final String USERNAME = "aravikumar7";
+        final String ACCESS_KEY = "fba3dead-f784-4860-ae5a-5a9c54d44b84";
+        final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.eu-central-1.saucelabs.com/wd/hub";
         WebDriver driver = null;
         //String browserName = System.getProperty("BROWSER");
         String browserName="chrome";
@@ -29,8 +32,6 @@ public class BrowserFactory {
         if(browserName.equalsIgnoreCase("chrome")){
             capabilities = DesiredCapabilities.chrome();
             //capabilities.setVersion("73.0");
-
-
         }
         else if(browserName.equalsIgnoreCase("Firefox")){
             capabilities = DesiredCapabilities.firefox();
@@ -38,17 +39,11 @@ public class BrowserFactory {
         else {
             capabilities = DesiredCapabilities.chrome();
         }
-
-
         try {
-            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL(URL), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-
         return driver;
-
     }
-
 }

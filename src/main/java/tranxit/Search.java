@@ -3,19 +3,24 @@ package tranxit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 
 public class Search extends BasePage{
-    WebElement searchBox;
-    WebElement searchButton;
+
+    @FindBy(how = How.ID,using = "small-searchterms")
+    public WebElement searchBox;
+
+    @FindBy(how = How.XPATH,using = "//input[@value='Search']")
+    public WebElement searchButton;
+
     public Search(WebDriver driver){
         super(driver);
     }
     public WebElement searchOption(){
-        searchBox = driver.findElement(By.id("small-searchterms"));
-        return searchBox;
+         return searchBox;
     }
     public WebElement clickSearchButton(){
-        searchButton=driver.findElement(By.xpath("//input[@value='Search']"));
         return searchButton;
     }
     public WebElement resultPage(String prodDescription){

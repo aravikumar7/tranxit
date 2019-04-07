@@ -3,44 +3,64 @@ package tranxit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 
 import java.util.List;
 
 public class AddToBasket extends BasePage{
-    public AddToBasket(WebDriver driver){
+
+    @FindBy(how = How.XPATH,using = "//input[@value='Add to cart']")
+    public WebElement addToCart;
+
+    @FindBy(how = How.XPATH,using = "//span[@class='cart-qty']")
+    public WebElement addToBasket;
+
+    @FindBy(how = How.XPATH,using = "//span[@class='cart-label']")
+    public WebElement shoppingCart;
+
+    @FindBy(how = How.NAME,using = "removefromcart")
+    public List<WebElement> removeQuantity;
+
+    @FindBy(how = How.NAME,using = "updatecart")
+    public WebElement updateCart;
+
+    @FindBy(how = How.XPATH,using = "//div[@class='no-data']")
+    public WebElement confirmationMessage;
+
+    //List<WebElement> updateshoppingCart=driver.findElements(By.className("qty-input"));
+    @FindBy(how = How.CLASS_NAME,using = "qty-input")
+    public List<WebElement> updateshoppingCart;
+
+    @FindBy(how = How.CLASS_NAME,using = "product-name")
+    public List<WebElement> productlabel;
+
+    public AddToBasket(WebDriver driver)
+    {
         super(driver);
     }
 
     public WebElement userClicksLink(){
-        WebElement addToCart=driver.findElement(By.xpath("//input[@value='Add to cart']"));
         return addToCart;
     }
     public WebElement cartCheck(){
-        WebElement addToBasket=driver.findElement(By.xpath("//span[@class='cart-qty']"));
         return addToBasket;
     }
     public List<WebElement> removeQuantity(){
-        WebElement shoppingCart=driver.findElement(By.xpath("//span[@class='cart-label']"));
         shoppingCart.click();
-        List<WebElement> removeQuantity=driver.findElements(By.name("removefromcart"));
         return removeQuantity;
     }
     public WebElement UpdateCart(){
-        WebElement updateCart=driver.findElement(By.name("updatecart"));
         return updateCart;
     }
     public WebElement confirmMessage(){
-        WebElement confirmationMessage=driver.findElement(By.xpath("//div[@class='no-data']"));
         return confirmationMessage;
     }
     public List<WebElement> updateQuantity(){
-        WebElement shoppingCart=driver.findElement(By.xpath("//span[@class='cart-label']"));
         shoppingCart.click();
-        List<WebElement> updateshoppingCart=driver.findElements(By.className("qty-input"));
         return updateshoppingCart;
     }
     public List<WebElement> productlabel(){
-        List<WebElement> productlabel=driver.findElements(By.className("product-name"));
         return productlabel;
     }
 }
