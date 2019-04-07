@@ -37,7 +37,14 @@
       <artifactId>cucumber-java</artifactId>
       <version>4.2.6</version>
     </dependency>
-    <dependency>
+      <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-server -->
+      <dependency>
+          <groupId>org.seleniumhq.selenium</groupId>
+          <artifactId>selenium-server</artifactId>
+          <version>3.141.59</version>
+      </dependency>
+
+      <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-core</artifactId>
       <version>4.2.6</version>
