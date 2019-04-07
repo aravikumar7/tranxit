@@ -3,6 +3,34 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <profiles>
+    <profile>
+      <id>integration-tests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <parallel>none</parallel>
+              <threadCount>1</threadCount>
+              <disableXmlReport>true</disableXmlReport>
+            </configuration>
+            <executions>
+              <execution>
+                <id>cucumberFeaturefile</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <groupId>tranxit</groupId>
   <artifactId>tranxit</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -73,7 +101,12 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.1.1</version>
       </dependency>
-
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-failsafe-plugin</artifactId>
+      <version>3.0.0-M3</version>
+      <type>maven-plugin</type>
+    </dependency>
   </dependencies>
 
   <build>
@@ -83,6 +116,7 @@
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
+
         </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
