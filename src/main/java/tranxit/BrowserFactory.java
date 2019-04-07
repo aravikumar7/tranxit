@@ -40,6 +40,9 @@ public class BrowserFactory {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        capabilities.setCapability("platform","Linux");
+        capabilities.setCapability("version","latest");
+        capabilities.setCapability("name","Search Feature");
         return driver;
     }
 }
