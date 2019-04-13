@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -23,11 +24,14 @@ public class BrowserFactory {
         if (driver != null) {
             return driver;
         } else {
-      /*      String browserName = System.getProperty("BROWSER");
+            String browserName = System.getProperty("BROWSER");
             DesiredCapabilities capabilities;
 
             if (browserName.equalsIgnoreCase("chrome")) {
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-features=VizDisplayCompositor");
                 capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability(ChromeOptions.CAPABILITY,options);
             } else if (browserName.equalsIgnoreCase("Firefox")) {
                 capabilities = DesiredCapabilities.firefox();
             } else if (browserName.equalsIgnoreCase("edge")) {
@@ -43,11 +47,12 @@ public class BrowserFactory {
                 driver = new RemoteWebDriver(new URL(URL), capabilities);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            }*/
-            System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver.exe");
+            }
+         /*   System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver.exe");
             WebDriverManager.chromedriver().setup();
             driver=new ChromeDriver();
-            return driver;
+         */
+         return driver;
         }
     }
 }
