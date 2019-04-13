@@ -11,6 +11,7 @@ Feature: To add and delete products to Basket
       | user id          | password |
       | demos1@demos.com | 1234567  |
 
+@AddToCart
   Scenario Outline: Search for valid products and add it to Basket
     Given user Search option is available
     When user clicks on search Text box
@@ -26,6 +27,7 @@ Feature: To add and delete products to Basket
       | Pride and Prejudice                        | (2)   |
       | adidas Consortium Campus 80s Running Shoes | (2)   |
 
+@UpdateShoppingCart
   Scenario Outline: To Update quantities in Basket
     When user clicks on "Shopping Cart" button
     And selects qty
@@ -37,6 +39,7 @@ Feature: To add and delete products to Basket
       | Flower Girl Bracelet | 10       |
       | Pride and Prejudice  | 5        |
 
+@DeleteShoppingCart
   Scenario: To delete quantities in Basket
     When user clicks on "Shopping Cart" button and selects Remove
     And Clicks on "Update Shopping Cart"

@@ -2,6 +2,7 @@ package tranxit;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -95,6 +96,14 @@ public class AddToBasket extends BasePage {
     public void updatedQuantityCheck(String arg0, String arg1) throws InterruptedException {
         driver.navigate().refresh();
         //productlabel = addToBasket.productlabel();
+        try
+        {
+            driver.switchTo().alert().dismiss();
+        }
+        catch (NoAlertPresentException Ex)
+        {
+        }
+
         updateQuantity = driver.findElements(By.className("qty-input"));
         Thread.sleep(5000);
         int k = 0;
