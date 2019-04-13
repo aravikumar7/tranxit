@@ -1,12 +1,11 @@
 package tranxit;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -33,7 +32,6 @@ public class AddToBasket extends BasePage {
     @FindBy(how = How.XPATH, using = "//div[@class='no-data']")
     public WebElement confirmationMessage;
 
-    //List<WebElement> updateshoppingCart=driver.findElements(By.className("qty-input"));
     @FindBy(how = How.CLASS_NAME, using = "qty-input")
     public List<WebElement> updateQuantity;
 
@@ -43,17 +41,21 @@ public class AddToBasket extends BasePage {
 
     public void userClicksLink() throws InterruptedException {
         addToCart.click();
-        Thread.sleep(5000);
+        ((JavascriptExecutor)driver).executeScript("arguments[0].click()", driver.findElement(By.xpath("//*[@id='bar-notification']/span")));
     }
 
-    public WebElement cartCheck() {
-        return addToBasket;
+    public Boolean cartCheck(String arg0) throws InterruptedException {
+        //System.out.println(addToBasket.getText());
+        WebDriverWait wait = new WebDriverWait(driver,30);
+        //wait.until(ExpectedConditions.visibilityOf(addToBasket));
+        wait.until(ExpectedConditions.elementToBeClickable(addToBasket));
+        //Thread.sleep(5000);
+        //System.out.println("After" + addToBasket.getText());
+        return addToBasket.getText().contains(arg0);
     }
 
     public void removeQuantity() {
         shoppingCart.click();
-        //return removeQuantity;
-        //List<WebElement> removeQuantity=addToBasket.removeQuantity();
         for (WebElement i : removeQuantity) {
             i.click();
         }
@@ -63,19 +65,12 @@ public class AddToBasket extends BasePage {
         updateCart.click();
     }
 
-    public WebElement confirmMessage() {
-        return confirmationMessage;
+    public Boolean confirmMessage(String arg0) {
+        return confirmationMessage.getText().contains(arg0);
     }
 
     public void updateQuantity() {
         shoppingCart.click();
-        //return updateshoppingCart;
-        //updateQuantity = updateshoppingCart;
-    }
-
-    public void productlabel() {
-        //return productlabel;
-        //productlabel = productlabel;
     }
 
     public void updateProductQuantity(String arg0, String arg1) {
@@ -95,7 +90,6 @@ public class AddToBasket extends BasePage {
 
     public void updatedQuantityCheck(String arg0, String arg1) throws InterruptedException {
         driver.navigate().refresh();
-        //productlabel = addToBasket.productlabel();
         try
         {
             driver.switchTo().alert().dismiss();
@@ -103,10 +97,9 @@ public class AddToBasket extends BasePage {
         catch (NoAlertPresentException Ex)
         {
         }
-
         updateQuantity = driver.findElements(By.className("qty-input"));
         Thread.sleep(5000);
-        int k = 0;
+         int k = 0;
         for (WebElement m : productlabel) {
             k++;
             int l = 0;

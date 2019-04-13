@@ -9,7 +9,7 @@ Feature: To validate Search functionality
     Then user should be taken to the result page with the "<product name>" and picture
 
     Examples:
-      | user id          | password | product name                               |
-      | demos1@demos.com | 1234567  | Apple iCam                                 |
-      | demos1@demos.com | 1234567  | adidas Consortium Campus 80s Running Shoes |
-      | demos1@demos.com | 1234567  | Pride and Prejudice                        |
+      | product name                               |
+      | Apple iCam                                 |
+      | adidas Consortium Campus 80s Running Shoes |
+      | Pride and Prejudice                        |

@@ -29,10 +29,9 @@ Feature: To add and delete products to Basket
 
 @UpdateShoppingCart
   Scenario Outline: To Update quantities in Basket
-    When user clicks on "Shopping Cart" button
-    And selects qty
+    When user clicks on "Shopping Cart" button and selects quantity
     And Updates product's "<products>" quantity "<quantity>"
-    And Clicks on "Update Shopping Cart"
+    And Clicks on Update Shopping Cart
     Then Quantity for "<products>" should get updated as given in "<quantity>"
     Examples:
       | products             | quantity |
@@ -42,5 +41,5 @@ Feature: To add and delete products to Basket
 @DeleteShoppingCart
   Scenario: To delete quantities in Basket
     When user clicks on "Shopping Cart" button and selects Remove
-    And Clicks on "Update Shopping Cart"
+    And Clicks on Update Shopping Cart
     Then the message "Your Shopping Cart is empty!" should appear

@@ -11,11 +11,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class HomePage extends BasePage{
-   // public static WebDriver driver;
-    public HomePage(WebDriver driver){
+     public HomePage(WebDriver driver){
         super(driver);
     }
 
@@ -33,6 +33,10 @@ public class HomePage extends BasePage{
     public WebElement welcomeMessage;
 
 
+    public void linkOpen(String arg0){
+        WebElement link=driver.findElement(By.partialLinkText(arg0));
+        link.click();
+    }
     public void login(String mail,String pword){
         email.clear();
         email.sendKeys(mail);
@@ -51,4 +55,22 @@ public class HomePage extends BasePage{
             WebElement registrationPageHeading=driver.findElement(By.tagName("h1"));
             return registrationPageHeading.getText().contains("Register");
         }
+public void pageCheck(String arg0){
+    String parentWindowHandler = driver.getWindowHandle(); // Store your parent window
+    String subWindowHandler = null;
+    Set<String> handles = driver.getWindowHandles(); // get all window handles
+    for(String child:handles) {
+        if (!parentWindowHandler.equals(child))
+            driver.switchTo().window(child);
+    }
+    driver.manage().timeouts().pageLoadTimeout(3000, TimeUnit.SECONDS);
+    String pageURL=driver.getCurrentUrl();
+    System.out.println("URL is "+ pageURL);
+    Assert.assertEquals(arg0,pageURL);
+    //driver.close();
+}
+
+    public boolean userInHomePage() {
+    return driver.getCurrentUrl().contains("http://demo.nopcommerce.com");
+    }
 }

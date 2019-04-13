@@ -23,7 +23,9 @@ public class BrowserFactory {
 
         if (driver != null) {
             return driver;
-        } else {
+        }
+        else
+        {
             String browserName = System.getProperty("BROWSER");
             DesiredCapabilities capabilities;
 
@@ -48,11 +50,10 @@ public class BrowserFactory {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-         /*   System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver.exe");
-            WebDriverManager.chromedriver().setup();
-            driver=new ChromeDriver();
-         */
-         return driver;
+     /*   System.setProperty("webdriver.chrome.driver", "G:/driver/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();*/
+        return driver;
         }
     }
 }

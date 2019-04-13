@@ -26,8 +26,6 @@ public class MyStepdefinition {
     HomePage home;
     Register register;
     AddToBasket addToBasket;
-   // List<WebElement> updateQuantity;
-   // List<WebElement> productlabel;
     Search srch;
 
     @Before
@@ -47,39 +45,22 @@ public class MyStepdefinition {
 
     @Given("user is in Home page")
     public void userIsInHomePage() throws InterruptedException {
-     //   System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver");
-//        driver = BrowserFactory.getBrowser();
-      //  driver.manage().window().maximize();
-  //      driver.get("http://demo.nopcommerce.com");
+        home = new HomePage(driver);
+        Assert.assertTrue(home.userInHomePage());
     }
 
     @When("user opens the {string} link")
     public void userOpensTheLink(String arg0) {
-        WebElement link=driver.findElement(By.partialLinkText(arg0));
-        link.click();
+        home.linkOpen(arg0);
     }
 
     @Then("the page should open in a new window with title as {string}")
     public void thePageShouldOpenWithText(String arg0) {
-        String parentWindowHandler = driver.getWindowHandle(); // Store your parent window
-        String subWindowHandler = null;
-        Set<String> handles = driver.getWindowHandles(); // get all window handles
-        for(String child:handles) {
-            if (!parentWindowHandler.equals(child))
-                driver.switchTo().window(child);
-        }
-        driver.manage().timeouts().pageLoadTimeout(3000, TimeUnit.SECONDS);
-        String pageURL=driver.getCurrentUrl();
-        System.out.println("URL is "+ pageURL);
-        Assert.assertEquals(arg0,pageURL);
+        home.pageCheck(arg0);
     }
-
-
-
 
     @When("user clicks Log in link")
     public void userClicksLogInLink() {
-        home = new HomePage(driver);
         home.clickLogin();
     }
 
@@ -100,7 +81,7 @@ public class MyStepdefinition {
     }
     @When("user clicks on MY ACCOUNT link after logging in")
     public void userClicksOnLinkAfterLoggingIn() {
-            login.MyAccount();
+        login.MyAccount();
     }
 
     @And("updates Company Name to {string}")
@@ -168,9 +149,8 @@ public class MyStepdefinition {
     }
 
     @Then("the product should be added to Cart with proper {string}")
-    public void theProductShouldBeAddedToCartWithProper(String arg0) {
-        WebElement addToCart=addToBasket.cartCheck();
-        Assert.assertEquals(arg0,addToCart.getText());
+    public void theProductShouldBeAddedToCartWithProper(String arg0) throws InterruptedException {
+        Assert.assertTrue(addToBasket.cartCheck(arg0));
     }
 
     @When("user clicks on {string} button and selects Remove")
@@ -179,26 +159,20 @@ public class MyStepdefinition {
         addToBasket.removeQuantity();
     }
 
-    @And("Clicks on {string}")
-    public void clicksOn(String arg0) {
+    @And("Clicks on Update Shopping Cart")
+    public void clicksOn() {
         addToBasket.UpdateCart();
     }
 
     @Then("the message {string} should appear")
     public void theMessageShouldAppear(String arg0) {
-        WebElement confirmationMessage=addToBasket.confirmMessage();
-        Assert.assertEquals(arg0,confirmationMessage.getText());
+        Assert.assertTrue(addToBasket.confirmMessage(arg0));
     }
 
-    @When("user clicks on {string} button")
+    @When("user clicks on {string} button and selects quantity")
     public void userClicksOnButtonAndSelectsQty(String arg0) {
         addToBasket=new AddToBasket(driver);
         addToBasket.updateQuantity();
-    }
-
-    @And("selects qty")
-    public void selectsQty() {
-        addToBasket.productlabel();
     }
 
     @And("Updates product's {string} quantity {string}")
@@ -214,42 +188,33 @@ public class MyStepdefinition {
 
 //##Search
 
-    WebElement searchBox;
-
     @When("user Search option is available")
     public void userSearchOptionIsAvailable() {
         srch=new Search(driver);
-        searchBox=srch.searchOption();
     }
 
     @And("user clicks on search Text box")
     public void userClicksOnSearchTextBox() {
-        searchBox.click();
+        srch.searchOptionClick();
     }
 
     @And("enters {string}")
     public void enters(String arg0) {
-        searchBox.clear();
-        searchBox.sendKeys(arg0);
+        srch.searchText(arg0);
     }
 
     @When("user clicks on Search button")
     public void userClicksOnSearchButton() {
-        WebElement searchButton=srch.clickSearchButton();
-        searchButton.click();
+        srch.searchButtonClick();
     }
 
     @Then("user should be taken to the result page with the {string} and picture")
     public void userShouldBeTakenToTheResultPageWithTheAndPicture(String arg0) {
-        WebElement productDescription=srch.resultPage(arg0);
-        Assert.assertEquals(arg0,productDescription.getText());
-    }
-
+        Assert.assertTrue(srch.resultPage(arg0));
+        }
 
     @Then("he should not be successfully logged in")
     public void heShouldNotBeSuccessfullyLoggedIn() {
-        String s=driver.findElement(By.xpath("div[@class='message-error validation-summary-errors']")).getText();
-    System.out.println("msg is"+s);
-        Assert.assertEquals("Login was unsuccessful. Please correct the errors and try again.",s);
+       Assert.assertTrue(srch.isSuccesfullyLoggedIn());
     }
 }
