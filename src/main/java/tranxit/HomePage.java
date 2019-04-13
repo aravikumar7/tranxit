@@ -43,8 +43,12 @@ public class HomePage extends BasePage{
     public void clickLogin() {
         login.click();
     }
-    public Boolean welcomeMessage(){
-        String message=welcomeMessage.getText();
+    public Boolean welcomeMessage() {
+        String message = welcomeMessage.getText();
         return message.contains("Welcome, Please Sign In!");
     }
+        public Boolean registration(){
+            WebElement registrationPageHeading=driver.findElement(By.tagName("h1"));
+            return registrationPageHeading.getText().contains("Register");
+        }
 }

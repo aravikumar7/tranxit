@@ -1,4 +1,5 @@
 package tranxit;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,9 +10,19 @@ public class Register extends BasePage{
     public Register(WebDriver driver){
         super(driver);
     }
-    public WebElement registarionLink(){
+
+    public boolean confirmation(String arg0) {
+        WebElement registrationConfirmation=driver.findElement(By.xpath("//div[@class='result']"));
+        return registrationConfirmation.getText().contains(arg0);
+    }
+
+    public void register() {
+        driver.findElement(By.name("register-button")).click();
+    }
+
+    public void registarionLink(){
         WebElement registrationLink=driver.findElement(By.className("ico-register"));
-        return registrationLink;
+        registrationLink.click();
     }
 
     public void enterUserDetails(String gender, String dateOfBirth, String newsLetter, String firstName, String lastName, String email, String companyName, String userName, String Password, String confirmPassword){

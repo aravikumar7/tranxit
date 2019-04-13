@@ -7,16 +7,15 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 public class Search extends BasePage{
-
+    public Search(WebDriver driver){
+        super(driver);
+    }
     @FindBy(how = How.ID,using = "small-searchterms")
     public WebElement searchBox;
 
     @FindBy(how = How.XPATH,using = "//input[@value='Search']")
     public WebElement searchButton;
 
-    public Search(WebDriver driver){
-        super(driver);
-    }
     public WebElement searchOption(){
          return searchBox;
     }

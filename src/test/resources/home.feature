@@ -2,7 +2,7 @@
 Feature: To test Home Page
 
   Scenario Outline: Social media links
-    Given user is in the Home page
+    Given user is in Home page
     When user opens the "<social media>" link
     Then the page should open in a new window with title as "<text>"
 

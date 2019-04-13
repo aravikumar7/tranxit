@@ -8,7 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 public class Login extends BasePage{
-
+    public Login(WebDriver driver){
+        super(driver);
+    }
 
     @FindBy(how = How.XPATH,using = "//a[@class='ico-logout']")
     public WebElement logout;
@@ -21,9 +23,7 @@ public class Login extends BasePage{
     @FindBy(how = How.XPATH,using = "//a[@class='ico-login']")
     public WebElement login;
 
-    public Login(WebDriver driver){
-        super(driver);
-    }
+
 
     public Boolean successfulLogin(){
         String logoutTest=logout.getText();

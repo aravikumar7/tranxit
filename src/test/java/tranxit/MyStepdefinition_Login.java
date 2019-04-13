@@ -1,18 +1,23 @@
 package tranxit;
 
+import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class MyStepdefinition_Login {
@@ -21,30 +26,56 @@ public class MyStepdefinition_Login {
     HomePage home;
     Register register;
     AddToBasket addToBasket;
-    List<WebElement> updateQuantity;
-    List<WebElement> productlabel;
+   // List<WebElement> updateQuantity;
+   // List<WebElement> productlabel;
     Search srch;
 
-   // @Before
-    //public void testtetsetet() {
-      //  System.out.println("openBrowser");
-       // System.setProperty("webdriver.chrome.driver","/G/chromedriver.exe");
+    @Before
+    public void testtetsetet() {
+        driver = BrowserFactory.getBrowser();
+        driver.get("http://demo.nopcommerce.com");
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
 
-//        WebDriverManager.chromedriver().setup();
-//        browser = new ChromeDriver();
-       // driver = BrowserFactory.getBrowser();
-        //driver.manage().window().maximize();
-        //driver.get("http://demo.nopcommerce.com");
-    //}
+    @After
+    public void afterTest(Scenario scenario){
+        if(scenario.isFailed()) {
+            scenario.embed(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES), "image/png");
+        }
+    }
 
 
     @Given("user is in Home page")
     public void userIsInHomePage() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver");
-        driver = BrowserFactory.getBrowser();
-        driver.manage().window().maximize();
-        driver.get("http://demo.nopcommerce.com");
+     //   System.setProperty("webdriver.chrome.driver","G:/driver/chromedriver");
+//        driver = BrowserFactory.getBrowser();
+      //  driver.manage().window().maximize();
+  //      driver.get("http://demo.nopcommerce.com");
     }
+
+    @When("user opens the {string} link")
+    public void userOpensTheLink(String arg0) {
+        WebElement link=driver.findElement(By.partialLinkText(arg0));
+        link.click();
+    }
+
+    @Then("the page should open in a new window with title as {string}")
+    public void thePageShouldOpenWithText(String arg0) {
+        String parentWindowHandler = driver.getWindowHandle(); // Store your parent window
+        String subWindowHandler = null;
+        Set<String> handles = driver.getWindowHandles(); // get all window handles
+        for(String child:handles) {
+            if (!parentWindowHandler.equals(child))
+                driver.switchTo().window(child);
+        }
+        driver.manage().timeouts().pageLoadTimeout(3000, TimeUnit.SECONDS);
+        String pageURL=driver.getCurrentUrl();
+        System.out.println("URL is "+ pageURL);
+        Assert.assertEquals(arg0,pageURL);
+    }
+
+
+
 
     @When("user clicks Log in link")
     public void userClicksLogInLink() {
@@ -69,13 +100,12 @@ public class MyStepdefinition_Login {
     }
     @When("user clicks on MY ACCOUNT link after logging in")
     public void userClicksOnLinkAfterLoggingIn() {
-    // login=new Login(driver);
             login.MyAccount();
     }
 
     @And("updates Company Name to {string}")
     public void updatesCompanyNameTo(String arg0) {
-      login.UpdateCompanyName(arg0);
+        login.UpdateCompanyName(arg0);
     }
 
     @And("Clicks Save button")
@@ -105,16 +135,13 @@ public class MyStepdefinition_Login {
     @When("user clicks on the {string} link")
     public void userClicksOnTheLink(String arg0) {
         register=new Register(driver);
-        WebElement registrationLink=register.registarionLink();
-        registrationLink.click();
+        register.registarionLink();
     }
 
     @Then("he should be taken to registration page")
     public void heShouldBeTakenToRegistrationPage() {
-        WebElement registrationPageHeading=driver.findElement(By.tagName("h1"));
-        Assert.assertEquals("Register",registrationPageHeading.getText());
+        Assert.assertTrue(home.registration());
     }
-
 
     @When("he selects {string},{string},{string} and inputs {string},{string},{string},{string},{string},{string},{string}")
     public void heSelectsAndInputs(String arg0, String arg1, String arg2, String arg3, String arg4, String arg5, String arg6, String arg7, String arg8, String arg9) {
@@ -123,25 +150,21 @@ public class MyStepdefinition_Login {
 
     @And("Clicks Submit button")
     public void clicksSubmitButton() {
-        driver.findElement(By.name("register-button")).click();
+        register.register();
     }
 
     @Then("{string} message should appear")
     public void messageShouldAppear(String arg0) {
-        WebElement registrationConfirmation=driver.findElement(By.xpath("//div[@class='result']"));
-        Assert.assertEquals(arg0,registrationConfirmation.getText());
+        register.confirmation(arg0);
     }
 
 
 //#####ADD TO BASKET
 
-
     @When("user clicks on {string} link")
     public void userClicksOnLink(String arg0) throws InterruptedException {
         addToBasket=new AddToBasket(driver);
-        WebElement addToCart=addToBasket.userClicksLink();
-        addToCart.click();
-        Thread.sleep(5000);
+        addToBasket.userClicksLink();
     }
 
     @Then("the product should be added to Cart with proper {string}")
@@ -152,17 +175,13 @@ public class MyStepdefinition_Login {
 
     @When("user clicks on {string} button and selects Remove")
     public void userClicksOnButtonAndSelectsRemove(String arg0) {
-        List<WebElement> removeQuantity=addToBasket.removeQuantity();
-        for(WebElement i: removeQuantity)
-        {
-            i.click();
-        }
+        addToBasket=new AddToBasket(driver);
+        addToBasket.removeQuantity();
     }
 
     @And("Clicks on {string}")
     public void clicksOn(String arg0) {
-        WebElement updateCart=addToBasket.UpdateCart();
-        updateCart.click();
+        addToBasket.UpdateCart();
     }
 
     @Then("the message {string} should appear")
@@ -173,51 +192,24 @@ public class MyStepdefinition_Login {
 
     @When("user clicks on {string} button")
     public void userClicksOnButtonAndSelectsQty(String arg0) {
-
-        updateQuantity=addToBasket.updateQuantity();
+        addToBasket=new AddToBasket(driver);
+        addToBasket.updateQuantity();
     }
 
     @And("selects qty")
     public void selectsQty() {
-        productlabel=addToBasket.productlabel();
+        addToBasket.productlabel();
     }
 
     @And("Updates product's {string} quantity {string}")
     public void updatesProductSQuantity(String arg0, String arg1) {
-        int k=0;
-        for(WebElement i: productlabel) {
-            k++;
-            int l=0;
-            for (WebElement j : updateQuantity) {
-                l++;
-                if ((i.getText().equals(arg0)) && k==l)
-                {j.clear();
-                    j.sendKeys(arg1);
-                }
-            }
-        }
-
+        addToBasket.updateProductQuantity(arg0,arg1);
     }
 
     @Then("Quantity for {string} should get updated as given in {string}")
     public void quantityForShouldGetUpdatedAsGivenIn(String arg0, String arg1) throws InterruptedException {
-        driver.navigate().refresh();
-        productlabel=addToBasket.productlabel();
-        updateQuantity=driver.findElements(By.className("qty-input"));
-        Thread.sleep(5000);
-        int k = 0;
-        for (WebElement m : productlabel) {
-            k++;
-            int l = 0;
-            for (WebElement n : updateQuantity) {
-                l++;
-                if ((m.getText().equals(arg0)) && k == l) {
-                    Assert.assertEquals(arg1, n.getAttribute("value"));
-                }
-            }
-
+       addToBasket.updatedQuantityCheck(arg0,arg1);
         }
-    }
 
 
 //##Search
@@ -254,15 +246,10 @@ public class MyStepdefinition_Login {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
+    @Then("he should not be successfully logged in")
+    public void heShouldNotBeSuccessfullyLoggedIn() {
+        String s=driver.findElement(By.xpath("div[@class='message-error validation-summary-errors']")).getText();
+    System.out.println("msg is"+s);
+        Assert.assertEquals("Login was unsuccessful. Please correct the errors and try again.",s);
+    }
 }
