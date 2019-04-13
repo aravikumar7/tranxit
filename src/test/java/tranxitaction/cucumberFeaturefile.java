@@ -28,7 +28,6 @@ public class cucumberFeaturefile {
 
     @BeforeClass
     public static void beforeClassMethod(){
-        System.out.println("openBrowser");
         driver = BrowserFactory.getBrowser();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
