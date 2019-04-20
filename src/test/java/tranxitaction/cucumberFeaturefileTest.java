@@ -23,7 +23,7 @@ import tranxit.BrowserFactory;
         tags={"@AddToBasket"},
         plugin = {"pretty", "html:target/cucumber-htmlreport","json:target/cucumber-report.json"}
         )
-public class cucumberFeaturefile {
+public class cucumberFeaturefileTest {
     static WebDriver driver;
 
     @BeforeClass

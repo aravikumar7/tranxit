@@ -12,7 +12,7 @@ Feature: To test Account features
 
     Examples:
       | Gender | Date of Birth  | Newsletter | First Name | Last Name | email            | Company Name | User Name | Password | confirm password |
-      | Male   | 1-January-2000 | Yes        | demos       | 4         | demos5@demos.com | Demos        | demo3     | 1234567  | 1234567          |
+      | Male   | 1-January-2000 | Yes        | demos       | 6         | demos6@demos.com | Demos        | demo3     | 1234567  | 1234567          |
 
   @Login
   Scenario Outline: To test Login Functionality with valid input
